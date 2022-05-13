@@ -944,29 +944,6 @@ where
 
         let dimmed = writer.dimmed();
 
-        if let Some(scope) = ctx.event_scope() {
-            let bold = writer.bold();
-
-            let mut seen = false;
-
-            for span in scope.from_root() {
-                write!(writer, "{}", bold.paint(span.metadata().name()))?;
-                seen = true;
-
-                let ext = span.extensions();
-                if let Some(fields) = &ext.get::<FormattedFields<N>>() {
-                    if !fields.is_empty() {
-                        write!(writer, "{}{}{}", bold.paint("{"), fields, bold.paint("}"))?;
-                    }
-                }
-                write!(writer, "{}", dimmed.paint(":"))?;
-            }
-
-            if seen {
-                writer.write_char(' ')?;
-            }
-        };
-
         if self.display_target {
             write!(
                 writer,
